@@ -84,11 +84,15 @@ WSGI_APPLICATION = 'users.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+<<<<<<< HEAD
         'NAME': 'crm',
+=======
+        'NAME': 'chitradeep',
+>>>>>>> 8a9f1c279f1e0e9065e99ff2e1740fed97a48425
         'HOST':'127.0.0.1',
         'PORT':'3306',
         'USER':'root',
-        'PASSWORD':'sayan123',
+        'PASSWORD':'Chitradeep@12345',
     }
 }
 
