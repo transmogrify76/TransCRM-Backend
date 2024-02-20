@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'],validated_data['email'],validated_data['password'])
         role=Role.objects.get(role_id=2)
-        employee=Employee(validated_data['username'],validated_data['first_name'],validated_data['email'],role)
+        employee=Employee(validated_data['username'],validated_data['first_name'],validated_data['email'],2)
         employee.save()
         return user
     
