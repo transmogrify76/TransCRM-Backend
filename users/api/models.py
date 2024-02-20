@@ -20,6 +20,7 @@ class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
+    email = models.EmailField()
     visiting_date = models.DateField()
     prospect_status = models.CharField(max_length=255)
     outcome = models.TextField()

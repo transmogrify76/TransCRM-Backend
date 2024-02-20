@@ -9,7 +9,8 @@ from rest_framework.authentication import SessionAuthentication,TokenAuthenticat
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .permissions import CanViewCustomerData
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 class Register(APIView): 
     @transaction.atomic
@@ -74,8 +75,19 @@ class CustomerViewset(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
-    # def get_queryset(self):
-    #     return Customer.objects.all()
+    def create(self, request):
+        serializer = CustomerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            # Sending email
+            customer_email = serializer.validated_data['email']
+            subject = "This email is from Django server"
+            message = "This is test message in django"
+            from_email = settings.EMAIL_HOST_USER
+            send_mail(subject , message , from_email , [customer_email])
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
 
     def get_queryset(self):
         if self.request.user.is_authenticated:

@@ -84,7 +84,11 @@ WSGI_APPLICATION = 'users.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+<<<<<<< HEAD
+        'NAME': 'crm',
+=======
         'NAME': 'chitradeep',
+>>>>>>> 8a9f1c279f1e0e9065e99ff2e1740fed97a48425
         'HOST':'127.0.0.1',
         'PORT':'3306',
         'USER':'root',
@@ -139,3 +143,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sayanchatterjee149@gmail.com'
+EMAIL_HOST_PASSWORD = 'dtjmryregqhizcgq'
