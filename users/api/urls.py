@@ -10,6 +10,7 @@ router.register(r'roleset',RoleViewset)
 urlpatterns = [
     path('api/register/',Register.as_view(),name='register'),
     path('api/login/',Login.as_view(),name='login'),
+    path('api/get-customers/',CustomerListView.as_view(),name='get-customers'),
     path('api/logout/',Logout.as_view(),name='logout'),
     path('api/',include(router.urls))
 ]

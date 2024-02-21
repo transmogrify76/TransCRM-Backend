@@ -105,3 +105,9 @@ class RoleViewset(viewsets.ModelViewSet):
     queryset= Role.objects.all()
     serializer_class = RoleSerializer
 
+class CustomerListView(APIView):
+    def get(self, request):
+        customers = Customer.objects.all()
+        serializer = CustomerSerializer(customers, many=True)
+        return Response(serializer.data)
+
