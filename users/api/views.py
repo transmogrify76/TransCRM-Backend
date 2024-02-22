@@ -70,8 +70,8 @@ class Logout(APIView):
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 class CustomerViewset(viewsets.ModelViewSet):
-    # authentication_classes = [SessionAuthentication, TokenAuthentication]
-    # permission_classes = [IsAuthenticated,CanViewCustomerData]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated,CanViewCustomerData]
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
@@ -89,17 +89,17 @@ class CustomerViewset(viewsets.ModelViewSet):
         return Response(serializer.errors, status=400)
 
 
-    # def get_queryset(self):
-    #     if self.request.user.is_authenticated:
-    #         employee_inst = Employee.objects.filter(username=self.request.user)[0]
-    #         employee = Employee.objects.filter(username=self.request.user).values()[0]
-    #         if employee["role_id"] == 2:
-    #             # Retrieve only the data entered by the requesting staff user
-    #             return Customer.objects.filter(employee=employee_inst)
-    #         else:
-    #             # Retrieve all customer data
-    #             return Customer.objects.all()
-    #     # return Customer.objects.none()
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            employee_inst = Employee.objects.filter(username=self.request.user)[0]
+            employee = Employee.objects.filter(username=self.request.user).values()[0]
+            if employee["role_id"] == 2:
+                # Retrieve only the data entered by the requesting staff user
+                return Customer.objects.filter(employee=employee_inst)
+            else:
+                # Retrieve all customer data
+                return Customer.objects.all()
+        # return Customer.objects.none()
     
 class RoleViewset(viewsets.ModelViewSet):
     queryset= Role.objects.all()
