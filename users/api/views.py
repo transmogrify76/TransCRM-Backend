@@ -91,8 +91,20 @@ class CustomerViewset(viewsets.ModelViewSet):
             serializer.save()
             # Sending email
             customer_email = serializer.validated_data['email']
-            subject = "This email is from Django server"
-            message = "This is test message in django"
+            customer_name = serializer.validated_data['name']
+            subject = "Welcome to Transmogrify - Powering Your Journey with EV Chargers!"
+            message = f"""Dear {customer_name},
+            We are thrilled to extend a warm welcome to you as the newest member of the Transmogrify family! We're passionate about revolutionizing the way we power our vehicles, and we're delighted that you've chosen to embark on this journey with us. As an advocate for sustainability and innovation, you're not just a customer to us – you're a partner in driving positive change for the planet.
+            With our cutting-edge EV chargers, you're now equipped with the latest technology designed to make your electric vehicle ownership experience seamless and enjoyable. Whether you're at home, at work, or on the road, our chargers are engineered to deliver reliability, efficiency, and convenience.  
+            
+           
+           
+           
+           
+           
+        
+        
+        This email is generated automatically. Please refrain from replying directly; instead, kindly rephrase its content."""            
             from_email = settings.EMAIL_HOST_USER
             send_mail(subject , message , from_email , [customer_email])
             return Response(serializer.data)
