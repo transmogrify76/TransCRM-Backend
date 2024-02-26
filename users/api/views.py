@@ -8,24 +8,34 @@ from django.db import transaction
 from rest_framework.authentication import SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
-from .permissions import CanViewCustomerData
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import HttpResponse
+import pandas as pd
 
-class Register(APIView): 
+
+class Register(APIView):
     @transaction.atomic
-    def post(self,request):
+    def post(self, request):
         try:
             serializer = RegisterSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            user = serializer.save()
-            token=Token.objects.create(user=user)
-            return Response({
-                "message":f"user {serializer.data['username']} is created",
-                "token":token.key
-            },status=status.HTTP_201_CREATED)
+
+            if serializer.is_valid():
+                user = serializer.save()
+                token = Token.objects.create(user=user)
+
+                return Response({
+                    "message": f"User {serializer.data['username']} is created",
+                    "token": token.key
+                }, status=status.HTTP_201_CREATED)
+            else:
+                return Response({
+                    "error": serializer.errors
+                }, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"message":str(e)},status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "message": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Login(APIView):
@@ -71,7 +81,7 @@ class Logout(APIView):
         
 class CustomerViewset(viewsets.ModelViewSet):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated,CanViewCustomerData]
+    permission_classes = [IsAuthenticated]
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
@@ -81,8 +91,20 @@ class CustomerViewset(viewsets.ModelViewSet):
             serializer.save()
             # Sending email
             customer_email = serializer.validated_data['email']
-            subject = "This email is from Django server"
-            message = "This is test message in django"
+            customer_name = serializer.validated_data['name']
+            subject = "Welcome to Transmogrify - Powering Your Journey with EV Chargers!"
+            message = f"""Dear {customer_name},
+            We are thrilled to extend a warm welcome to you as the newest member of the Transmogrify family! We're passionate about revolutionizing the way we power our vehicles, and we're delighted that you've chosen to embark on this journey with us. As an advocate for sustainability and innovation, you're not just a customer to us – you're a partner in driving positive change for the planet.
+            With our cutting-edge EV chargers, you're now equipped with the latest technology designed to make your electric vehicle ownership experience seamless and enjoyable. Whether you're at home, at work, or on the road, our chargers are engineered to deliver reliability, efficiency, and convenience.  
+            
+           
+           
+           
+           
+           
+        
+        
+        This email is generated automatically. Please refrain from replying directly; instead, kindly rephrase its content."""            
             from_email = settings.EMAIL_HOST_USER
             send_mail(subject , message , from_email , [customer_email])
             return Response(serializer.data)
@@ -99,10 +121,8 @@ class CustomerViewset(viewsets.ModelViewSet):
             else:
                 # Retrieve all customer data
                 return Customer.objects.all()
-        # return Customer.objects.none()
+        return Customer.objects.none()
     
 class RoleViewset(viewsets.ModelViewSet):
     queryset= Role.objects.all()
     serializer_class = RoleSerializer
-
-

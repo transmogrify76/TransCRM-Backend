@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'api.custommiddleware.AllowOnlyCertainIPsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -91,6 +92,7 @@ DATABASES = {
         'PASSWORD':'sayan123',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -143,5 +145,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'sayanchatterjee149@gmail.com'
-EMAIL_HOST_PASSWORD = 'dtjmryregqhizcgq'
+EMAIL_HOST_USER = 'transev76@gmail.com'
+EMAIL_HOST_PASSWORD = 'blvuxkiiphsfomes'
+
