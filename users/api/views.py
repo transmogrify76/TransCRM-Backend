@@ -8,24 +8,34 @@ from django.db import transaction
 from rest_framework.authentication import SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
-from .permissions import CanViewCustomerData
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import HttpResponse
+import pandas as pd
 
-class Register(APIView): 
+
+class Register(APIView):
     @transaction.atomic
-    def post(self,request):
+    def post(self, request):
         try:
             serializer = RegisterSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            user = serializer.save()
-            token=Token.objects.create(user=user)
-            return Response({
-                "message":f"user {serializer.data['username']} is created",
-                "token":token.key
-            },status=status.HTTP_201_CREATED)
+
+            if serializer.is_valid():
+                user = serializer.save()
+                token = Token.objects.create(user=user)
+
+                return Response({
+                    "message": f"User {serializer.data['username']} is created",
+                    "token": token.key
+                }, status=status.HTTP_201_CREATED)
+            else:
+                return Response({
+                    "error": serializer.errors
+                }, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"message":str(e)},status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "message": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Login(APIView):
@@ -70,8 +80,8 @@ class Logout(APIView):
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 class CustomerViewset(viewsets.ModelViewSet):
-    # authentication_classes = [SessionAuthentication, TokenAuthentication]
-    # permission_classes = [IsAuthenticated,CanViewCustomerData]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
@@ -89,20 +99,18 @@ class CustomerViewset(viewsets.ModelViewSet):
         return Response(serializer.errors, status=400)
 
 
-    # def get_queryset(self):
-    #     if self.request.user.is_authenticated:
-    #         employee_inst = Employee.objects.filter(username=self.request.user)[0]
-    #         employee = Employee.objects.filter(username=self.request.user).values()[0]
-    #         if employee["role_id"] == 2:
-    #             # Retrieve only the data entered by the requesting staff user
-    #             return Customer.objects.filter(employee=employee_inst)
-    #         else:
-    #             # Retrieve all customer data
-    #             return Customer.objects.all()
-    #     # return Customer.objects.none()
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            employee_inst = Employee.objects.filter(username=self.request.user)[0]
+            employee = Employee.objects.filter(username=self.request.user).values()[0]
+            if employee["role_id"] == 2:
+                # Retrieve only the data entered by the requesting staff user
+                return Customer.objects.filter(employee=employee_inst)
+            else:
+                # Retrieve all customer data
+                return Customer.objects.all()
+        return Customer.objects.none()
     
 class RoleViewset(viewsets.ModelViewSet):
     queryset= Role.objects.all()
     serializer_class = RoleSerializer
-
-
