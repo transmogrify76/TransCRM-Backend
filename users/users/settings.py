@@ -85,8 +85,8 @@ WSGI_APPLICATION = 'users.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'transCRM',
-        'HOST':'transcrm.cjc24gswqdnz.us-west-2.rds.amazonaws.com',
+        'NAME': 'TransCRM',
+        'HOST':'trans-crm.cpaucm8a4ch4.ap-south-1.rds.amazonaws.com',
         'PORT':'3306',
         'USER':'admin',
         'PASSWORD':'Admin12345',
