@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'users.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shubham',
+        'NAME': 'transcrm',
         'HOST':'127.0.0.1',
         'PORT':'3306',
-        'USER':'root',
-        'PASSWORD':'12345',
+        'USER':'admin',
+        'PASSWORD':'Admin12345',
     }
 }
 
