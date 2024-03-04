@@ -10,8 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from django.core.mail import send_mail
 from django.conf import settings
-from django.http import HttpResponse
-import pandas as pd
+
 
 
 class Register(APIView):
@@ -96,12 +95,7 @@ class CustomerViewset(viewsets.ModelViewSet):
             message = f"""Dear {customer_name},
             We are thrilled to extend a warm welcome to you as the newest member of the Transmogrify family! We're passionate about revolutionizing the way we power our vehicles, and we're delighted that you've chosen to embark on this journey with us. As an advocate for sustainability and innovation, you're not just a customer to us – you're a partner in driving positive change for the planet.
             With our cutting-edge EV chargers, you're now equipped with the latest technology designed to make your electric vehicle ownership experience seamless and enjoyable. Whether you're at home, at work, or on the road, our chargers are engineered to deliver reliability, efficiency, and convenience.  
-            
-           
-           
-           
-           
-           
+                               
         
         
         This email is generated automatically. Please refrain from replying directly; instead, kindly rephrase its content."""            
