@@ -120,3 +120,8 @@ class CustomerViewset(viewsets.ModelViewSet):
 class RoleViewset(viewsets.ModelViewSet):
     queryset= Role.objects.all()
     serializer_class = RoleSerializer
+
+
+class EmployeeViewset(viewsets.ModelViewSet):
+    queryset= Employee.objects.all()
+    serializer_class = EmployeeSerializer
