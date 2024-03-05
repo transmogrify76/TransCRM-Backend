@@ -33,3 +33,8 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = '__all__'
     
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = '__all__'
+        depth = 1
