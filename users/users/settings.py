@@ -90,6 +90,7 @@ DATABASES = {
         'PORT':'3306',
         'USER':'u179156391_admin',
         'PASSWORD':'Tgpl@2023',
+
     }
 }
 
