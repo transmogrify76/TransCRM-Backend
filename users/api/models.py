@@ -19,8 +19,10 @@ class Employee(models.Model):
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+    company_name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     email = models.EmailField()
+    phone_number = models.IntegerField(unique=True)
     visiting_date = models.DateField()
     prospect_status = models.CharField(max_length=255)
     outcome = models.TextField()
