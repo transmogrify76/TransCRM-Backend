@@ -12,4 +12,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-  list_display = ["customer_id", "name","visiting_date","employee"]
+  list_display = ["customer_id", "name","employee"]
+@admin.register(CustomerInteraction)
+class CutomerInteractionAdmin(admin.ModelAdmin):
+  list_display = ["prospect_status","outcome","visiting_date"]

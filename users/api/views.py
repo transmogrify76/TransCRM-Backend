@@ -92,13 +92,25 @@ class CustomerViewset(viewsets.ModelViewSet):
             customer_email = serializer.validated_data['email']
             customer_name = serializer.validated_data['name']
             subject = "Welcome to Transmogrify - Powering Your Journey with EV Chargers!"
-            message = f"""Dear {customer_name},
-            We are thrilled to extend a warm welcome to you as the newest member of the Transmogrify family! We're passionate about revolutionizing the way we power our vehicles, and we're delighted that you've chosen to embark on this journey with us. As an advocate for sustainability and innovation, you're not just a customer to us – you're a partner in driving positive change for the planet.
-            With our cutting-edge EV chargers, you're now equipped with the latest technology designed to make your electric vehicle ownership experience seamless and enjoyable. Whether you're at home, at work, or on the road, our chargers are engineered to deliver reliability, efficiency, and convenience.  
-                               
+            message =  f"""Dear {customer_name},
+Welcome to Transmogrify! 
+
+        We're thrilled to unveil our state-of-the-art EV chargers, set to redefine how you power your electric vehicle. Get ready to experience a new era of sustainability and innovation right at your fingertips.
+
+        Our chargers aren't just about powering your vehicle – they're a statement of your commitment to a greener future. With unparalleled reliability and seamless convenience, you can charge up wherever you are: at home, at work, or on the move.
+
+        Join us in shaping the future of transportation, one charge at a time.
+
+        Embrace the power of change!
+
         
+
         
-        This email is generated automatically. Please refrain from replying directly; instead, kindly rephrase its content."""            
+Please keep in mind that this email is auto-generated. We kindly ask that you refrain from replying. 
+
+Warm regards,
+Transmogrify Team
+ """       
             from_email = settings.EMAIL_HOST_USER
             send_mail(subject , message , from_email , [customer_email])
             return Response(serializer.data)
@@ -125,3 +137,7 @@ class RoleViewset(viewsets.ModelViewSet):
 class EmployeeViewset(viewsets.ModelViewSet):
     queryset= Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+class CustomerInteractionViewset(viewsets.ModelViewSet):
+    serializer_class = CustomerInteractionSerializer
+    queryset = CustomerInteraction.objects.all()

@@ -29,12 +29,24 @@ class RegisterSerializer(serializers.ModelSerializer):
     
 class CustomerSerializer(serializers.ModelSerializer):
     customer_id= serializers.ReadOnlyField()
+    interactions = serializers.SerializerMethodField()
     class Meta:
         model = Customer
         fields = '__all__'
+    
+    def get_interactions(self, obj):
+        interactions = CustomerInteraction.objects.filter(customer=obj)
+        serializer = CustomerInteractionSerializer(interactions, many=True)
+        return serializer.data
     
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
         depth = 1
+
+class CustomerInteractionSerializer(serializers.ModelSerializer):
+    customer_id= serializers.ReadOnlyField()
+    class Meta:
+        model = CustomerInteraction
+        fields = '__all__'
