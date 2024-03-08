@@ -5,6 +5,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'customers',CustomerViewset)
+router.register(r'customer-interaction',CustomerInteractionViewset)
 router.register(r'employees',EmployeeViewset)
 router.register(r'roleset',RoleViewset)
 
