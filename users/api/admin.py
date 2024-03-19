@@ -16,3 +16,7 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(CustomerInteraction)
 class CutomerInteractionAdmin(admin.ModelAdmin):
   list_display = ["prospect_status","outcome","visiting_date"]
+
+@admin.register(EmployeeTravelAllowance)
+class EmployeeTravelAllowanceAdmin(admin.ModelAdmin):
+  list_display = [i.name for i in EmployeeTravelAllowance._meta.fields]
