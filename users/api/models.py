@@ -30,16 +30,23 @@ class Customer(models.Model):
     
 class CustomerInteraction(models.Model):
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    designation = models.CharField(max_length=255)
+    visiting_time = models.TimeField()
     visiting_date = models.DateField()
     prospect_status = models.CharField(max_length=255)
     outcome = models.CharField(max_length=255)
 
-
 class EmployeeTravelAllowance(models.Model):
+    PAID_STATUS = (
+        ("PAID", "PAID"),
+        ("UNPAID", "UNPAID"),
+    )
+
     starting_location = models.CharField(max_length=255)
     ending_location = models.CharField(max_length=255)
     starting_kilometer = models.IntegerField(null=True, blank=True)
     ending_kilometer = models.IntegerField(null=True, blank=True)
     amount = models.BigIntegerField()
     created_at = models.DateTimeField()
+    payment_status = models.CharField(max_length=20, choices=PAID_STATUS, default="UNPAID")
     employee = models.ForeignKey(Employee, null=True, on_delete=models.SET_NULL, related_name="travel_allowances")
