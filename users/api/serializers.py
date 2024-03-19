@@ -39,14 +39,21 @@ class CustomerSerializer(serializers.ModelSerializer):
         serializer = CustomerInteractionSerializer(interactions, many=True)
         return serializer.data
     
-class EmployeeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = '__all__'
-        depth = 1
+
 
 class CustomerInteractionSerializer(serializers.ModelSerializer):
     customer_id= serializers.ReadOnlyField()
     class Meta:
         model = CustomerInteraction
         fields = '__all__'
+
+class EmployeeTravelAllowanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=EmployeeTravelAllowance
+        fields = '__all__'
+class EmployeeSerializer(serializers.ModelSerializer):
+    travel_allowances = EmployeeTravelAllowanceSerializer(many=True, read_only=True)
+    class Meta:
+        model = Employee
+        fields = '__all__'
+        depth = 1

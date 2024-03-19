@@ -8,6 +8,7 @@ router.register(r'customers',CustomerViewset)
 router.register(r'customer-interaction',CustomerInteractionViewset)
 router.register(r'employees',EmployeeViewset)
 router.register(r'roleset',RoleViewset)
+router.register('employee-travel-allowance',EmployeeTravelAllowanceViewset)
 
 urlpatterns = [
     path('api/register/',Register.as_view(),name='register'),
