@@ -41,7 +41,8 @@ class EmployeeTravelAllowance(models.Model):
         ("PAID", "PAID"),
         ("UNPAID", "UNPAID"),
     )
-
+    contact_person_name = models.CharField(max_length=255,null=True,blank=True)
+    phone_number = models.CharField(max_length=12,null=True,blank=True)
     starting_location = models.CharField(max_length=255)
     ending_location = models.CharField(max_length=255)
     starting_kilometer = models.IntegerField(null=True, blank=True)
